@@ -1,86 +1,115 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+body{
+  font-family: "Montserrat", sans-serif;
 }
 
-h1{
-  background-color: lavenderblush;
-  text-align: center;
-  padding-top: 20px;
+div.my-carousel-container{
+  min-height: 700px;
+  min-width: 800px ;
+  max-width: 1350px;
+  margin: 0 auto;
 }
 
-.nascosto{
+div.my-carousel-images{
+  height: 540px;
+  border: 1px solid;
+}
+
+/* bottoni */
+div.my-previous,
+div.my-next{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, .5);
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
   display: none;
 }
 
-#container-base{
-  background-color: lavenderblush;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* spostamento del bottone indietro */
+div.my-previous{
+  left: 1rem;
 }
 
-.container-all{
-  width: 60%;
-  height: 65%;
+/* spostamento del bottone avanti */
+div.my-next{
+  right: 1rem;
+}
+
+.my-next:hover,
+.my-previous:hover{
+  background-color: aquamarine;
+}
+
+/* contenuto del bottone indietro */
+div.my-previous > span::after{
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f7fb";
+  line-height: 30px;
+}
+
+/* contenuto del bottone avanti */
+div.my-next > span::after{
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f520";
+  line-height: 30px;
+}
+
+/* carosello che si vede */
+div.my-carousel-item{
+  display: none;
+}
+
+/* carosello in display none */
+div.my-carousel-item.active{
+  display: block;
+}
+
+div.my-carousel-item{
+  height: 100%;
   position: relative;
+  display: none;
 }
 
-.carousel{
+div.my-carousel-item img{
   height: 100%;
-}
-
-.container-img{
   width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 
-/* button.btn{
+div.item-description{
   position: absolute;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  right: 8%;
-}
-
-button.btn:hover{
-  cursor: pointer;
-  background-color: rgb(243, 40, 212);
+  top: 1rem;
+  right: 1rem;
   color: white;
+  text-align: end;
+  text-shadow: 2px 2px 2px black;
 }
 
-button.btn.top{
-  top: 15px;
-}
-
-button.btn.bottom{
-  bottom: 15px;
-} */
-
-.small-carousel{
-  position: absolute;
-  top: 0;
-  right: 0px;
-  height: 100%;
-  width: 20%;
+div#my-carousel .my-thumbnails-wrapper{
+  flex-basis: 20%;
+  height: 160px;
   display: flex;
-  flex-direction: column;
+  overflow-x: auto;
 }
 
-.img-dx{
-  height: 20%;
-  width: 100%;
+div#my-carousel .my-thumbnails-wrapper .my-thumbnail{
+  filter: brightness(.4);
+  width:100%
 }
 
-.small-img{
-  width: 100%;
+div#my-carousel .my-thumbnails-wrapper .my-thumbnail img{
   height: 100%;
-  object-fit: cover;
+  width: 100%;
 }
 
-.opacity{
-  opacity: 0.5;
+div#my-carousel .my-thumbnails-wrapper
+.my-thumbnail.active{
+  filter:brightness(1);
+  border: 3px rgb(197, 197, 197) solid;
 }

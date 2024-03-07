@@ -1,70 +1,114 @@
-const image = [
-  'img/01.webp',
-  'img/02.webp',
-  'img/03.webp',
-  'img/04.webp',
-  'img/05.webp'
+// array con oggetti
+const images = [
+  {
+    url: 'http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg',
+  },
+
+  {
+    url: 'https://static1.evcdn.net/images/reduction/1513757_w-1920_h-1080_q-70_m-crop.jpg',
+  },
+
+  {
+    url: 'https://img.itinari.com/pages/images/original/0d3ed180-d22d-48e8-84df-19c4d888b41f-62-crop.jpg?ch=DPR&dpr=2.625&w=1600&s=7ebd4b5a9e045f41b4e0c7c75d298d6c',
+
+  },
+  {
+    url: 'https://static1.evcdn.net/images/reduction/1583177_w-1920_h-1080_q-70_m-crop.jpg',
+  },
+  {
+    url: 'https://cdn.sanity.io/images/24oxpx4s/prod/ed09eff0362396772ad50ec3bfb728d332eb1c30-3200x2125.jpg?w=1600&h=1063&fit=crop',
+  },
 ];
 
-console.log(image);
-const carousel = document.querySelector('.carousel');
-const fotoPiccola = document.querySelector('.small-carousel');
+console.log(images);
 
-// console.log(carousel);
+// inserisco il blocco html 
+images.forEach((images, index) => {
+  // console.log(index);
+  let classToAdd = '';
 
-for(i = 0; i < image.length; i++){
-  const addImg = image[i];
-  console.log (addImg);
-  carousel.innerHTML += `<img class="container-img single nascosto" src="${addImg}"> `
+  if (index === 0) {
+    classToAdd = 'active';
+  }
+  // stampo IMMAGINE GRANDE che se index è 0 (ha indice zero,ovvero è la prima) ha la classe active quindi si vede
+  output.innerHTML += `
+  <div class="my-carousel-item ${classToAdd}">
+  <img class="img-fluid" src="${images.url}"  picture">
+  </div>
+</div>
+  `
+})
 
-  fotoPiccola.innerHTML += `<img class="img-dx single-opacity" src="${addImg}"> `
-};
+// inserimento img carosello
+// 1.creo la costante della mia class html
+const imagesWrapper = document.querySelector(".my-carousel-images");
+const thumbnailsWrapper = document.querySelector(".my-thumbnails-wrapper");
 
-const imgCollection = document.getElementsByClassName('single');
-const imgSmall = document.getElementsByClassName('single-opacity');
-const btnUp = document.querySelector('.top');
-const btnDown = document.querySelector('.bottom');
+images.forEach((image) => {
+  imagesWrapper.innerHTML += createTempImages(image);
+  thumbnailsWrapper.innerHTML += createTempThumbnails(image);
+});
 
-console.log(btnDown, btnUp);
+//Inserimento degli elementi creati in collection
+let counterImages = 0;
+const imagesCollection = document.querySelectorAll(".my-carousel-item");
+imagesCollection[counterImages].classList.add("active");
 
+const thumbnailsCollection = document.querySelectorAll(".my-thumbnail");
+thumbnailsCollection[counterImages].classList.add("active");
+
+
+// faccio si che al click cambi immagine e thumbnails
+
+// creo le costanti (vedi bottoni css) necessarie ad avanzare ed arretrare
+// const btnNext = document.querySelector(".my-next");
+// btnNext.addEventListener('click', goNext);
+
+
+// FUNZIONI//
 let counter = 0 ;
+function createTempImages(imgElement) {
+  return `
+  <div class="my-carousel-item">
+    <img
+      class="img-fluid"
+      src="${imgElement.url}"
+      alt="${imgElement.title} picture"
+    />
+    <div class="item-description px-3">
+      <h2>${imgElement.title}</h2>
+      <p>${imgElement.description}</p>
+    </div>
+  </div>
+  `;
+}
 
-imgCollection[0].classList.remove('nascosto');
+function createTempThumbnails(thumbElement) {
+  return `
+  <div class="my-thumbnail">
+    <img
+      class="img-fluid"
+      src="${thumbElement.url}"
+      alt="Thumbnail of ${thumbElement.title} picture"
+    />
+  </div>
+  `;
+}
 
-btnUp.classList.add('nascosto');
+function goNext() {
+  changeActiveStatus(counterImages);
+  counterImages === images.length - 1 ? (counterImages = 0) : counterImages++;
+  changeActiveStatus(counterImages);
+}
 
-btnUp.addEventListener('click', function() {
+function changeActiveStatus(counter) {
+  imagesCollection[counter].classList.toggle("active");
+  thumbnailsCollection[counter].classList.toggle("active");
+}
 
-  imgCollection[counter--].classList.add('nascosto');
-  imgCollection[counter].classList.remove('nascosto');
 
-  if(counter === 0){
-    btnUp.classList.add('nascosto');
-  }
+// timing function
+// autoplay
+let autoplay = setInterval(goNext, 2000);
 
-  btnDown.classList.remove('nascosto');
-
-});
-
-btnDown.addEventListener('click', function() {
-  imgCollection[counter++].classList.add('nascosto');
-  imgCollection[counter].classList.remove('nascosto');
-  if(counter === imgCollection.length - 1 ){
-    btnDown.classList.add('nascosto');
-  }
-  btnUp.classList.remove('nascosto');
-
-});
-
-// TIMING FUNCTION ////////
-
-const contatoreAutomatico = setInterval(()=>{
-  counter++
-  console.log(image);
-},1000)
-
-setTimeout(()=>{
-  console.log('stop');
-  clearInterval(contatoreAutomatico)
-},5000)
 
